@@ -1,0 +1,11 @@
+Package: assignment4Package
+Type: Package
+Title: assignment
+Version: 1.0
+Date: 2019-09-11
+Authors@R: c(person("Zuxiang", "Li", email = "zuxli371@student.liu.se", role = c("aut", "cre")),
+          person("Ying", "Luo", email = "yinlu879@student.liu.se", role = c("aut")))
+Description: Advanced Programming in R (LAB3), build by group 11.
+License: GPL (>= 2)
+RoxygenNote: 6.1.1
+Encoding: UTF-8
