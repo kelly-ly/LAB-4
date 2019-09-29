@@ -1,4 +1,4 @@
-linreg <- setRefClass("linreg",
+linreg1<- setRefClass("linreg1",
                       fields=list(formula = 'formula',
                                   data = 'data.frame',
                                   reg_coe = 'matrix',
@@ -83,7 +83,7 @@ linreg <- setRefClass("linreg",
                             geom_point(shape = 1, size = 3) +
                             scale_x_continuous(name="Fitted values") +
                             scale_y_continuous(name="Residuals")
-                          print(plot1)
+                            return (plot1)
                         },
                         resid = function(){
                           return(as.vector(residuals))
@@ -98,7 +98,7 @@ linreg <- setRefClass("linreg",
                         },
                         summary = function(){
                           standard_error <- sqrt(diag(var_reg_coe))
-                          p_value <- 2 * pt(abs(p$t_value), p$df, lower.tail = FALSE)
+                          p_value <- 2 * pt(abs(t_value), df, lower.tail = FALSE)
                           summary_result <- cbind(reg_coe, standard_error, t_value, paste(p_value, "***"))
                           colnames(summary_result) <- c("Estimate", "Std. Error", "t value", "p value")
                           # colnames(summary_result) <- NULL
@@ -108,3 +108,7 @@ linreg <- setRefClass("linreg",
                         }
                       )
 )
+l1<-linreg1$new(Petal.Length~Species, data=iris)
+l1$plot()
+l1$residuals
+l1$summary()

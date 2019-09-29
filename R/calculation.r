@@ -1,7 +1,9 @@
-linreg<-setRefClass("linreg",fields=list(formula='formula',data='data.frame',reg_coe='matrix',fitted_value='matrix',residuals='matrix',df='numeric',res_var='matrix',var_reg_coe='matrix',t_value='matrix'),methods=list(
+linreg<-setRefClass("linreg",fields=list(formula='formula',data='data.frame',reg_coe='matrix',fitted_value='matrix',residuals='matrix',df='numeric',res_var='matrix',var_reg_coe='matrix',t_value='matrix',data_name = "character"),methods=list(
   initialize = function(formula,data){
+    library(ggplot2)
     formula<<-formula
     data<<-data
+    data_name <<- deparse(substitute(data))
     calculate_Regressions_coefficients()
     calculate_the_fitted_value()
     calculate_the_residuals()
@@ -53,11 +55,11 @@ linreg<-setRefClass("linreg",fields=list(formula='formula',data='data.frame',reg
     #return(t_value)
     #return(sqrt(var(reg_coe)))
   },
-  # print=function(){
-  #   str2<-cat('Coefficients:\n',reg_coe[,1])
-  #   #v<-c(str2,reg_coe[,1])
-  #   return(str2)
-  # },
+  print = function(){
+    cat("linreg(formula = ", format(formula), ", data = ",data_name,")\n", sep = "")
+    argnames <- sys.call()
+    print.table(t(reg_coe))
+  },
   plot=function(){
     d<-c()
     for(i in 1:nlevels(factor(fitted_value))){
@@ -68,13 +70,26 @@ linreg<-setRefClass("linreg",fields=list(formula='formula',data='data.frame',reg
       d<-c(d,m)
     }
     
+    max1<-max(residuals)
+    max2<-max(residuals[-max1])
+    min<-min(residuals)
+    topAndBotton<-c(max1,max2,min)
+    
     axe_x<-as.numeric(levels(factor(fitted_value)))
     df1<-data.frame(fv=fitted_value,rs=residuals)
     names(df1)<-c("fv","rs")
     df2<-data.frame(fv=axe_x,rs=d)
-  
-    plot1<-ggplot(df1,aes(x=fv,y=rs))+geom_point(shape = 21)+geom_line(data=df2,color="red")
-    #+scale_y_continuous(limits = c(-0.00000000000001,0.00000000000001))
+    
+    #plot1<-ggplot(df1,aes(x=fv,y=rs))+geom_point(shape = 21)+geom_line(data=df2,color="red")
+    plot1<-ggplot(df1,aes(x=fv,y=rs))+geom_point(shape = 21)+geom_smooth(method = 'loess',se=FALSE,colour="red")
+    plot1<-plot1+labs(title = "Residuals vs Fitted",x="Fitted Values",y="Residuals")+theme(plot.title=element_text(hjust=0.5))
+
+    
+    
+    df3<-data.frame(fv=fitted_value,stand_res=sqrt(abs(residuals)))
+    plot2<-ggplot(df3,aes(x=fitted_value,y=sqrt(abs(residuals))))
+    plot2<-plot2+geom_point(shape = 21)+geom_smooth(method = 'loess',se=FALSE,colour="red")+labs(title = "Scale−Location",x="Fitted Values")+theme(plot.title=element_text(hjust=0.5))
+    
     return(plot1)
     },
   resid=function(){
@@ -86,36 +101,26 @@ linreg<-setRefClass("linreg",fields=list(formula='formula',data='data.frame',reg
   coef=function(){
     return(reg_coe[,1])
   },
-  summary=function(){
-    pv<-pt(abs(t_value),df,lower.tail = FALSE)
-    dataframe<-data.frame(round(reg_coe[,1],5),round(sqrt(diag(var_reg_coe)),5),round(t_value,2),pv)
-    names(dataframe)<-c("Estimate","Std.Error","t value","p value")
-    print(dataframe)
-    cat("\nResidual standard error:",round(sqrt(res_var),4),"on",df,"degress of freedom")
-    #return(df)
+  summary = function(){
+    standard_error <- sqrt(diag(var_reg_coe))
+    p_value <- 2 * pt(abs(t_value), df, lower.tail = FALSE)
+    summary_result <- cbind(reg_coe, standard_error, t_value, paste(p_value, "***"))
+    colnames(summary_result) <- c("Estimate", "Std. Error", "t value", "p value")
+    # colnames(summary_result) <- NULL
+    format(summary_result, trim = FALSE, scientific = TRUE, justify = "l")
+    print.table(summary_result)
+    cat("Residual standard error:", sqrt(res_var),"on",df,"degrees of freedom")
   }
 ))
 #l1<-linreg$new(formula=Sepal.Length~Sepal.Width+Petal.Length,data=iris)
 # create instance using class
 
-a123<-lm(formula=Petal.Length~Species,data=iris)
-summary.lm(a123)
+#a123<-lm(formula=Petal.Length~Species,data=iris)
+#summary.lm(a123)
 
 library(ggplot2)
 #l1<-linreg$new(Petal.Length~Species, data=iris)
-l1<-linreg$new(Petal.Length~Sepal.Width+Sepal.Length, data=iris)
-l1$df
+l1<-linreg$new(Petal.Length~Species, data=iris)
+l1$plot()
+l1$residuals
 l1$summary()
-
-
-
-l1$calculate_t_value()
-
-
-
-
-
-
-
-
-
