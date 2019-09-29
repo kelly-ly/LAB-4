@@ -4,6 +4,4 @@ language: R
 cache: packages
 
 before_install: 
-  - Rscript -e 'install.packages(c("knitr","assignment4Package"))'
-install:  
-  - Rscript -e 'install.packages("ggplot2")'
+  - Rscript -e 'install.packages(c("knitr","ggplot2"))'
