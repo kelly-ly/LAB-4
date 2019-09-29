@@ -5,7 +5,7 @@
 #' @param data data of regression model
 #' @examples
 #' data("iris")
-#' linreg_mod <- linreg_qr$new(formula = Petal.Length~Sepdsal.Width+Sepal.Length, data = iris)
+#' linreg_mod <- linreg_qr$new(formula = Petal.Length~Sepal.Width+Sepal.Length, data = iris)
 #' linreg_mod$print()
 #' @export linreg_qr
 #' @exportClass linreg_qr

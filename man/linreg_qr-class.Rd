@@ -16,6 +16,6 @@ linreg RC Class Object using QR Decomposition
 
 \examples{
 data("iris")
-linreg_mod <- linreg_qr$new(formula = Petal.Length~Sepdsal.Width+Sepal.Length, data = iris)
+linreg_mod <- linreg_qr$new(formula = Petal.Length~Sepal.Width+Sepal.Length, data = iris)
 linreg_mod$print()
 }
