@@ -16,8 +16,59 @@ library(assignment4Package)
 Linreg class requires two arguments: formula and data, and it calculate Regressions coeﬃcient, fitted values, residuals, degrees of freedom, and residual variance of multiple regression model.
 
 ## print()
+This function should print out the coefficients and coefficient names, similar as done by the lm class.
 ```{r}
-# data("iris")
-# linreg_mod <- linreg_qr$new(formula = Petal.Length~Sepdsal.Width+Sepal.Length, data = iris)
-# linreg_mod$print()
+data(iris)
+l1<-linreg$new(Petal.Length~Species, data=iris)
+
+l1$print()
+```
+
+## plot()
+
+```{r}
+data(iris)
+l1<-linreg$new(Petal.Length~Species, data=iris)
+
+l1$plot()
+```
+
+## resid()
+This function should return the vector of residuals.
+
+```{r}
+data(iris)
+l1<-linreg$new(Petal.Length~Species, data=iris)
+
+l1$resid()
+```
+
+## pred()
+This function should return the predicted values.
+
+```{r}
+data(iris)
+l1<-linreg$new(Petal.Length~Species, data=iris)
+
+l1$pred()
+```
+
+## coef()
+This function should return the coefficients as a named vector.
+
+```{r}
+data(iris)
+l1<-linreg$new(Petal.Length~Species, data=iris)
+
+l1$coef()
+```
+
+## summary()
+This function should return a similar printout as printed for lm objects, but you only need to present the coefficients with their standard error, t-value and p-value as well as the estimate of σˆ and the degrees of freedom in the model.
+
+```{r}
+data(iris)
+l1<-linreg$new(Petal.Length~Species, data=iris)
+
+l1$summary()
 ```

@@ -1,3 +1,15 @@
+# linreg RC Class Object
+
+#' linreg RC Class Object
+#' @param formula formula of regression model
+#' @param data data of regression model
+#' @examples
+#' data(iris)
+#' l1 <- linreg$new(formula = Petal.Length~Sepal.Width+Sepal.Length, data = iris)
+#' l1$print()
+#' @export linreg
+#' @exportClass linreg
+
 linreg<-setRefClass("linreg",fields=list(formula='formula',data='data.frame',reg_coe='matrix',fitted_value='matrix',residuals='matrix',df='numeric',res_var='matrix',var_reg_coe='matrix',t_value='matrix',data_name = "character"),methods=list(
   initialize = function(formula,data){
     library(ggplot2)
@@ -81,16 +93,17 @@ linreg<-setRefClass("linreg",fields=list(formula='formula',data='data.frame',reg
     df2<-data.frame(fv=axe_x,rs=d)
     
     #plot1<-ggplot(df1,aes(x=fv,y=rs))+geom_point(shape = 21)+geom_line(data=df2,color="red")
-    plot1<-ggplot(df1,aes(x=fv,y=rs))+geom_point(shape = 21)+geom_smooth(method = 'loess',se=FALSE,colour="red")
+    plot1<-ggplot(df1,aes(x=fv,y=rs))+geom_point(shape = 21)+stat_smooth(method = 'lm',se=FALSE,colour="red")
     plot1<-plot1+labs(title = "Residuals vs Fitted",x="Fitted Values",y="Residuals")+theme(plot.title=element_text(hjust=0.5))
 
     
     
     df3<-data.frame(fv=fitted_value,stand_res=sqrt(abs(residuals)))
     plot2<-ggplot(df3,aes(x=fitted_value,y=sqrt(abs(residuals))))
-    plot2<-plot2+geom_point(shape = 21)+geom_smooth(method = 'loess',se=FALSE,colour="red")+labs(title = "Scale−Location",x="Fitted Values")+theme(plot.title=element_text(hjust=0.5))
+    plot2<-plot2+geom_point(shape = 21)+stat_smooth(method = 'lm',se=FALSE,colour="red")+labs(title = "Scale−Location",x="Fitted Values")+theme(plot.title=element_text(hjust=0.5))
     
-    return(plot1)
+    
+    return(plot2)
     },
   resid=function(){
     return(residuals)
