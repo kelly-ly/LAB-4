@@ -12,3 +12,4 @@ Encoding: UTF-8
 Depends: R (>= 3.1.0), ggplot2
 Suggests: testthat (>= 2.1.0), knitr, rmarkdown
 VignetteBuilder: knitr
+Imports: methods

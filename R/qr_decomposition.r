@@ -89,13 +89,31 @@ linreg_qr <- setRefClass("linreg_qr",
                           print.table(t(reg_coe))
                         },
                         plot = function(){
-                          df1 = data.frame(fitted_value, residuals)
-                          names(df1) = c("fv","rs")
-                          plot1 = ggplot(data = df1) + aes(x = fv, y = rs) +
-                            geom_point(shape = 1, size = 3) +
-                            scale_x_continuous(name="Fitted values") +
-                            scale_y_continuous(name="Residuals")
-                          print(plot1)
+                          d<-c()
+                          for(i in 1:nlevels(factor(fitted_value))){
+                            pos<-which(fitted_value==levels(factor(fitted_value))[i])
+                            m<-median(residuals[pos[1]:pos[length(pos)]])
+                            d<-c(d,m)
+                          }
+                          
+                          max1<-max(residuals)
+                          max2<-max(residuals[-max1])
+                          min<-min(residuals)
+                          topAndBotton<-c(max1,max2,min)
+                          
+                          axe_x<-as.numeric(levels(factor(fitted_value)))
+                          df1<-data.frame(fv=fitted_value,rs=residuals)
+                          names(df1)<-c("fv","rs")
+                          df2<-data.frame(fv=axe_x,rs=d)
+                          
+                          plot1<-ggplot(df1,aes(x=fv,y=rs))+geom_point(shape = 21)+stat_smooth(method = 'lm',se=FALSE,colour="red")
+                          plot1<-plot1+labs(title = "Residuals vs Fitted",x="Fitted Values",y="Residuals",caption=format(formula))+theme(plot.title=element_text(hjust=0.5))
+                          
+                          df3<-data.frame(fv=fitted_value,stand_res=sqrt(abs(residuals)))
+                          plot2<-ggplot(df3,aes(x=fitted_value,y=sqrt(abs(residuals))))
+                          plot2<-plot2+geom_point(shape = 21)+stat_smooth(method = 'lm',se=FALSE,colour="red")+labs(title = "Scale-Location",x="Fitted Values",caption=(format(formula)))+theme(plot.title=element_text(hjust=0.5),plot.caption =element_text(hjust=0.5))
+                          
+                          return(list(plot1,plot2))
                         },
                         resid = function(){
                           return(as.vector(residuals))
