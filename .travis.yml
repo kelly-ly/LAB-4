@@ -3,5 +3,7 @@
 language: R
 cache: packages
 
+before_install: 
+  R -q -e 'install.packages(c("remotes", "curl", "knitr")); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
 install:
   - Rscript -e 'install.packages("ggplot2")'
