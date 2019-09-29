@@ -4,4 +4,4 @@ language: R
 cache: packages
 
 install:
-  - Rscript -e "install.packages("ggplot2")"
+  - Rscript -e 'install.packages("ggplot2")'
