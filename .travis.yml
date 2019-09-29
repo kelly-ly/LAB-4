@@ -3,7 +3,5 @@
 language: R
 cache: packages
 
-before_install: 
-  - Rscript -e 'install.packages("knitr")'
-  install:
-  - Rscript -e 'install.packages("ggplot2")'
+before_install: - Rscript -e 'install.packages("knitr")'
+install:  - Rscript -e 'install.packages("ggplot2")'
