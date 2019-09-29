@@ -94,16 +94,16 @@ linreg<-setRefClass("linreg",fields=list(formula='formula',data='data.frame',reg
     
     #plot1<-ggplot(df1,aes(x=fv,y=rs))+geom_point(shape = 21)+geom_line(data=df2,color="red")
     plot1<-ggplot(df1,aes(x=fv,y=rs))+geom_point(shape = 21)+stat_smooth(method = 'lm',se=FALSE,colour="red")
-    plot1<-plot1+labs(title = "Residuals vs Fitted",x="Fitted Values",y="Residuals")+theme(plot.title=element_text(hjust=0.5))
+    plot1<-plot1+labs(title = "Residuals vs Fitted",x="Fitted Values",y="Residuals",caption=format(formula))+theme(plot.title=element_text(hjust=0.5))
 
     
     
     df3<-data.frame(fv=fitted_value,stand_res=sqrt(abs(residuals)))
     plot2<-ggplot(df3,aes(x=fitted_value,y=sqrt(abs(residuals))))
-    plot2<-plot2+geom_point(shape = 21)+stat_smooth(method = 'lm',se=FALSE,colour="red")+labs(title = "Scale−Location",x="Fitted Values")+theme(plot.title=element_text(hjust=0.5))
+    plot2<-plot2+geom_point(shape = 21)+stat_smooth(method = 'lm',se=FALSE,colour="red")+labs(title = "Scale−Location",x="Fitted Values",caption=(format(formula)))+theme(plot.title=element_text(hjust=0.5),plot.caption =element_text(hjust=0.5))
     
     
-    return(plot2)
+    return(list(plot1,plot2))
     },
   resid=function(){
     return(residuals)
