@@ -1,0 +1,23 @@
+---
+title: "vignette"
+author: "Zuxiang Li, Ying Luo"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup}
+library(assignment4Package)
+```
+
+# Linreg Reference Class Object
+Linreg class requires two arguments: formula and data, and it calculate Regressions coeﬃcient, fitted values, residuals, degrees of freedom, and residual variance of multiple regression model.
+
+## print()
+```{r}
+# data("iris")
+# linreg_mod <- linreg_qr$new(formula = Petal.Length~Sepdsal.Width+Sepal.Length, data = iris)
+# linreg_mod$print()
+```
