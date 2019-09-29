@@ -4,5 +4,5 @@ language: R
 cache: packages
 
 before_install:
-  - sudo apt-get install -y ggplot2
+  - tlmgr install ggplot2
   
