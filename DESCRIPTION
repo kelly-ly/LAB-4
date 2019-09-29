@@ -9,6 +9,6 @@ Description: Advanced Programming in R (LAB4), build by group 11.
 License: GPL (>= 2)
 RoxygenNote: 6.1.1
 Encoding: UTF-8
-Depends: R (>= 3.1.0), ggplot2
+Depends: R (>= 3.1.0), ggplot2, testthat, rmarkdown
 Suggests: testthat (>= 2.1.0), knitr, rmarkdown
 VignetteBuilder: knitr
